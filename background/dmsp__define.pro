@@ -77,6 +77,16 @@ END
 
 
 
+
+;
+;*---------   ----------*
+;
+function dmsp::url_host
+compile_opt idl2
+return, 'https://www.ncei.noaa.gov/data/dmsp-space-weather-sensors/access/'
+end
+
+
 ;
 ;*----------   ----------*
 ;

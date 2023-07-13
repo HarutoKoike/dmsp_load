@@ -36,7 +36,7 @@ yr  = STRING(yr,  FORMAT='(I04)')
 mon = STRING(mon, FORMAT='(I02)')
 dy  = STRING(dy,  FORMAT='(I02)')
 ;
-url = 'http://satdat.ngdc.noaa.gov/dmsp/data/f' + f
+url = self->url_host() + 'f' + f
 
 
 
@@ -77,15 +77,8 @@ ENDIF
 ;*---------- IDL net url set property ----------*
 ;
 ourl = OBJ_NEW('IDLnetURL')
-user = 'IDL' + !VERSION.RELEASE
-url_path = 'dmsp/data/f' + f + '/ssm/' + yr + '/' + mon + '/'
-;
-ourl->SetProperty, HEADERS    = 'User_Agent:' + user
-ourl->SetProperty, URL_SCHEME = 'https'
-ourl->SetProperty, URL_HOST   = 'satdat.ngdc.noaa.gov'
-ourl->SetProperty, URL_PATH   = url_path
-;
-res = ourl->GET(/STRING_ARRAY)
+url  = self->url_host() + 'f' + f + '/ssm/' + yr + '/' + mon + '/'
+res  = ourl->GET(url=url, /STRING_ARRAY)
 OBJ_DESTROY, ourl
 
 
@@ -97,13 +90,14 @@ regex = '*PS.CKGWC_SC.U_DI.A_GP.SSMXX-F' + f +  $
 				yr + mon + dy + '_TP.*_DF.MFR.gz*'
 disc  = STRMATCH(res, regex)
 idx   = WHERE(disc EQ 1, c) 
+
 IF c NE 1 THEN RETURN, ''
 ;
 res  = res[idx]
 pos1 = STRPOS(res, 'PS.CKG')
 pos2 = STRPOS(res, '.MFR.gz')
 fn   = STRMID(res, pos1, pos2 - pos1 + 7)
-url  = url + '/ssm/' + yr + '/' + mon + '/'
+
 
 RETURN, url + fn  
 

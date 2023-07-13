@@ -5,9 +5,7 @@ path  = FILE_DIRNAME(path)
 SETENV, 'AACGM_v2_DAT_PREFIX=' + FILEPATH('aacgm_coeffs-13-', root=path, subdir='coeffs')  
 SETENV, 'IGRF_COEFFS=' + FILEPATH('magmodel_1590-2020.txt', root=path)
 
-
-
-
+aacgmidl_v2
 resolve_routine, 'genmag', /quiet
 resolve_routine, 'igrflib_v2', /quiet
 resolve_routine, 'aacgmlib_v2', /quiet
